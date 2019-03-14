@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.mapper.LabelInfoMapper">
+  <resultMap id="BaseResultMap" type="com.springmvc.pojo.LabelInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="label_code" jdbcType="VARCHAR" property="labelCode" />
+    <result column="label_name" jdbcType="VARCHAR" property="labelName" />
+    <result column="table_code" jdbcType="VARCHAR" property="tableCode" />
+    <result column="row_val" jdbcType="VARCHAR" property="rowVal" />
+    <result column="column_val" jdbcType="VARCHAR" property="columnVal" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, label_code, label_name, table_code, row_val, column_val, version
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_label_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_label_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springmvc.pojo.LabelInfo">
+    insert into t_label_info (id, label_code, label_name, 
+      table_code, row_val, column_val, 
+      version)
+    values (#{id,jdbcType=INTEGER}, #{labelCode,jdbcType=VARCHAR}, #{labelName,jdbcType=VARCHAR}, 
+      #{tableCode,jdbcType=VARCHAR}, #{rowVal,jdbcType=VARCHAR}, #{columnVal,jdbcType=VARCHAR}, 
+      #{version,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springmvc.pojo.LabelInfo">
+    insert into t_label_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="labelCode != null">
+        label_code,
+      </if>
+      <if test="labelName != null">
+        label_name,
+      </if>
+      <if test="tableCode != null">
+        table_code,
+      </if>
+      <if test="rowVal != null">
+        row_val,
+      </if>
+      <if test="columnVal != null">
+        column_val,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="labelCode != null">
+        #{labelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="labelName != null">
+        #{labelName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableCode != null">
+        #{tableCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rowVal != null">
+        #{rowVal,jdbcType=VARCHAR},
+      </if>
+      <if test="columnVal != null">
+        #{columnVal,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.pojo.LabelInfo">
+    update t_label_info
+    <set>
+      <if test="labelCode != null">
+        label_code = #{labelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="labelName != null">
+        label_name = #{labelName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableCode != null">
+        table_code = #{tableCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rowVal != null">
+        row_val = #{rowVal,jdbcType=VARCHAR},
+      </if>
+      <if test="columnVal != null">
+        column_val = #{columnVal,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springmvc.pojo.LabelInfo">
+    update t_label_info
+    set label_code = #{labelCode,jdbcType=VARCHAR},
+      label_name = #{labelName,jdbcType=VARCHAR},
+      table_code = #{tableCode,jdbcType=VARCHAR},
+      row_val = #{rowVal,jdbcType=VARCHAR},
+      column_val = #{columnVal,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <insert id="insertLabelList" parameterType="java.util.List">
+        insert into t_label_info(label_code, label_name, 
+		      table_code, row_val, column_val, 
+		      version)
+        values
+        <foreach collection="list" separator="," item="label">
+            (
+            #{label.labelCode},#{label.labelName},#{label.tableCode},#{label.rowVal},#{label.columnVal},#{label.version}
+            )
+        </foreach>
+    </insert>
+  	
+  	<select id="selectByRowColumn" parameterType="java.util.Map" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_label_info
+	    where table_code = #{tableCode} and version = #{version} and row_val = #{row} and column_val=#{column}
+    </select>
+    
+</mapper>

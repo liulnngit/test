@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.mapper.InputDataMapper">
+  <resultMap id="BaseResultMap" type="com.springmvc.pojo.InputData">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="label_code" jdbcType="VARCHAR" property="labelCode" />
+    <result column="value" jdbcType="DECIMAL" property="value" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="input_date" jdbcType="DATE" property="inputDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, label_code, value, version, input_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_input_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_input_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.springmvc.pojo.InputData">
+    insert into t_input_data (id, label_code, value, 
+      version, input_date)
+    values (#{id,jdbcType=BIGINT}, #{labelCode,jdbcType=VARCHAR}, #{value,jdbcType=DECIMAL}, 
+      #{version,jdbcType=VARCHAR}, #{inputDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springmvc.pojo.InputData">
+    insert into t_input_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="labelCode != null">
+        label_code,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="inputDate != null">
+        input_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="labelCode != null">
+        #{labelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=DECIMAL},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="inputDate != null">
+        #{inputDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.pojo.InputData">
+    update t_input_data
+    <set>
+      <if test="labelCode != null">
+        label_code = #{labelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        value = #{value,jdbcType=DECIMAL},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="inputDate != null">
+        input_date = #{inputDate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springmvc.pojo.InputData">
+    update t_input_data
+    set label_code = #{labelCode,jdbcType=VARCHAR},
+      value = #{value,jdbcType=DECIMAL},
+      version = #{version,jdbcType=VARCHAR},
+      input_date = #{inputDate,jdbcType=DATE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <insert id="insertDataList" parameterType="java.util.List">
+        insert into t_input_data (label_code, value, version, input_date) values
+        <foreach collection="list" separator="," item="data">
+            (
+            #{data.labelCode},#{data.value},#{data.version},#{data.inputDate}
+            )
+        </foreach>
+    </insert>
+  
+  
+</mapper>
